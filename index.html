@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eu e Tu Para Sempre</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Fontes do Google (Serifada Elegante e Sans-Serif Limpa) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Biblioteca para Ícones (Lucide) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Biblioteca Three.js para o Modelo 3D de Bennu -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    /* Estilos e Cores de Luxo Noturno (Velvet Reserve) */
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0a0806;
+      color: #edeae4;
+      overflow-x: hidden;
+    }
+
+    .font-serif-lux {
+      font-family: 'Playfair Display', serif;
+    }
+
+    .font-cinzel {
+      font-family: 'Cinzel', serif;
+    }
+
+    /* Fundo Concêntrico usando a paleta Velvet Reserve */
+    .concentric-bg {
+      background: radial-gradient(circle, #1a130e 0%, #0a0806 80%, #030202 100%);
+      position: relative;
+    }
+
+    .concentric-bg::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 200%;
+      height: 200%;
+      transform: translate(-50%, -50%);
+      background: repeating-radial-gradient(
+        circle,
+        transparent,
+        transparent 15px,
+        rgba(133, 79, 48, 0.04) 16px,
+        rgba(255, 213, 126, 0.03) 17px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Brilhos e bordas personalizadas Velvet Reserve */
+    .velvet-glow {
+      box-shadow: 0 0 25px rgba(133, 79, 48, 0.15);
+    }
+    
+    .gold-border {
+      border-color: rgba(255, 213, 126, 0.25);
+    }
+
+    .gold-text {
+      color: #ffd57e;
+    }
+
+    .velvet-brown-text {
+      color: #854f30;
+    }
+
+    .velvet-brown-bg {
+      background-color: #854f30;
+    }
+
+    /* Barra de rolagem estilizada Velvet */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0806;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #854f30;
+      border-radius: 3px;
+    }
+
+    /* Animação de flutuação suave do envelope */
+    @keyframes envelope-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .float-envelope {
+      animation: envelope-float 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="concentric-bg min-h-screen flex flex-col items-center justify-start pb-12 px-4 selection:bg-[#ffd57e]/30 selection:text-white">
+
+  <!-- ================= ECRÃ INICIAL: CARTINHA (Overlay) ================= -->
+  <div id="letter-screen" class="fixed inset-0 z-50 bg-[#faf4ec] flex flex-col items-center justify-center p-6 text-center transition-all duration-1000 ease-in-out">
+    
+    <!-- Elementos decorativos de fundo no tom Velvet Brown e Gold -->
+    <div class="absolute top-1/4 left-10 md:left-1/4 w-3 h-3 rounded-full bg-[#854f30]/20"></div>
+    <div class="absolute bottom-1/3 right-10 md:right-1/4 w-3.5 h-3.5 rounded-full bg-[#ffd57e]/40"></div>
+
+    <div class="max-w-md flex flex-col items-center gap-6">
+      
+      <!-- Envelope Animado (Estilo Imagem 730A2B17) -->
+      <div class="relative w-36 h-28 float-envelope mb-2 filter drop-shadow-md">
+        <svg viewBox="0 0 144 112" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+          <!-- Corpo do envelope -->
+          <rect x="2" y="12" width="140" height="96" rx="12" fill="#fff5eb" stroke="#ebd6c5" stroke-width="3" />
+          <!-- Sombra interior do envelope -->
+          <path d="M4 14 L72 68 L140 14" stroke="#e0c7b3" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M4 106 L55 58" stroke="#ebd6c5" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M140 106 L89 58" stroke="#ebd6c5" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Aba superior fechada de forma fofa -->
+          <path d="M2 14 L72 65 L142 14" fill="#fbe9da" stroke="#ebd6c5" stroke-width="3" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <!-- Texto Principal "Você recebeu uma cartinha" -->
+      <h1 class="font-serif-lux text-4xl md:text-5xl font-black tracking-tight text-[#3d2321] leading-tight">
+        Você recebeu<br>uma cartinha
+      </h1>
+
+      <!-- Subtítulo -->
+      <p class="text-xs text-[#6e5855] font-medium tracking-wide">
+        Uma mensagem especial de <strong class="text-[#3d2321] font-bold">João</strong> para <strong class="text-[#3d2321] font-bold">Alana</strong>
+      </p>
+
+      <!-- Botão "Abrir cartinha" adaptado para o tom Velvet Brown -->
+      <button id="open-letter-btn" class="mt-4 px-8 py-3.5 bg-[#854f30] hover:bg-[#6c3f25] text-white rounded-full font-bold text-sm tracking-wide shadow-lg shadow-[#854f30]/30 hover:shadow-[#854f30]/50 active:scale-95 transition-all flex items-center gap-2">
+        <i data-lucide="heart" class="w-4 h-4 fill-white"></i>
+        Abrir cartinha
+      </button>
+
+    </div>
+  </div>
+
+
+  <!-- ================= ECRÃ PRINCIPAL DO APP DE NAMORO ================= -->
+  <main id="main-content" class="w-full max-w-md relative z-10 flex flex-col gap-8 pt-10 opacity-0 transition-opacity duration-1000">
+
+    <!-- SEÇÃO 1: CABEÇALHO & TÍTULO PRINCIPAL -->
+    <section class="text-center flex flex-col items-center pt-4">
+      <span class="text-xs font-semibold tracking-[0.25em] gold-text uppercase mb-2 opacity-90">
+        PARA ALANA
+      </span>
+      <h1 class="font-serif-lux text-4xl md:text-5xl font-medium tracking-tight text-[#fbf9f4] mt-1 leading-tight">
+        João + Alana<br>
+        <span class="italic">para sempre</span>
+      </h1>
+    </section>
+
+    <!-- SEÇÃO 2: PORTA-RETRATOS DIGITAL (Exposição pura das vossas fotos reais) -->
+    <section class="w-full">
+      <div id="gallery-container" class="relative w-full aspect-[4/3] rounded-3xl border border-[#854f30]/40 bg-[#12100d]/90 flex flex-col items-center justify-center text-center cursor-pointer hover:border-[#ffd57e]/30 transition-all duration-300 overflow-hidden velvet-glow" title="Clica para ver a próxima foto">
+        
+        <!-- Exibição de Fotos -->
+        <div id="gallery-slideshow" class="absolute inset-0 w-full h-full">
+          <img id="gallery-img" src="" alt="Foto do casal" class="w-full h-full object-cover">
+          <div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/75 px-3 py-1 rounded-full text-[10px] tracking-widest text-[#ffd57e] flex items-center gap-2">
+            <span id="gallery-index">1/2</span>
+            <button id="next-photo-btn" class="hover:text-white transition-colors" title="Próxima Foto">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 inline"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SEÇÃO 3: DECLARAÇÃO DE AMOR DO JOÃO -->
+    <section class="text-center py-6 px-4 bg-[#120f0c]/60 rounded-3xl border border-[#854f30]/20">
+      <p class="font-serif-lux text-[15px] md:text-[17px] italic text-[#fbf9f4]/95 leading-relaxed font-light text-justify">
+        Se o céu perdesse o brilho e a lua deixasse de iluminar, bastaria o teu sorriso para fazer o meu mundo ganhar cor novamente. Gosto de voltar para casa com o teu cheiro no meu corpo, porque ele faz com que a tua presença continue comigo, mesmo quando você já não está ao meu lado. Eu amo te amar e te amo do jeito mais puro possível. Sou muito grato por ter você na minha vida e por poder compartilhar tantos momentos ao seu lado. Vamos assistir a muitos filmes e séries juntos, criar inúmeras lembranças e viver tudo o que sempre sonhamos. Vou te amar para sempre.
+
+
+      </p>
+      <span class="text-xs font-bold tracking-[0.3em] gold-text uppercase mt-4 block">
+        JOÃO
+      </span>
+    </section>
+
+    <!-- SEÇÃO 4: CARD DO CASAL COM IMAGEM NO TOPO E CONTADOR (Luxo Noturno) -->
+    <section class="w-full">
+      <div class="bg-[#120f0c] rounded-[2.2rem] border border-[#854f30]/35 shadow-2xl relative overflow-hidden flex flex-col velvet-glow">
+        
+        <!-- Cabeçalho de Imagem do Casal com Selo "OS MELHORES DIAS" -->
+        <div class="relative w-full h-80 overflow-hidden">
+          <img src="WhatsApp Image 2026-07-18 at 10.10.40.jpeg" alt="João e Alana" class="w-full h-full object-cover">
+          
+          <!-- Gradiente sutil escuro para dar contraste -->
+          <div class="absolute inset-0 bg-gradient-to-t from-[#120f0c] via-transparent to-black/30"></div>
+          
+          <!-- Badge Estilo "OS MELHORES DIAS" no tom Velvet Brown -->
+          <div class="absolute top-4 left-4 bg-[#0a0806]/90 border border-[#ffd57e]/30 px-3 py-1 rounded-full text-[9px] font-bold text-[#ffd57e] tracking-widest uppercase">
+            OS MELHORES DIAS
+          </div>
+        </div>
+
+        <!-- Conteúdo do Temporizador -->
+        <div class="p-6 flex flex-col items-center text-center">
+          
+          <!-- Nomes do Casal -->
+          <h2 class="font-serif-lux text-3xl font-medium text-[#fbf9f4] capitalize tracking-wide mt-2">
+            João Pedro e Alana Gabrielli
+          </h2>
+          <p class="text-xs text-[#ffd57e]/80 mt-1 mb-6 font-medium">
+            Juntos desde 18/10/2025
+          </p>
+
+          <!-- Grade de Contadores (Fundo transparente e contornos finos de Ouro Aveludado) -->
+          <div class="grid grid-cols-3 gap-3 w-full mb-6">
+            
+            <!-- ANOS -->
+            <div class="bg-transparent rounded-2xl border border-[#ffd57e]/20 p-3 flex flex-col items-center justify-center shadow-inner">
+              <span id="years" class="text-2xl font-bold text-[#fbf9f4] tracking-tight">0</span>
+              <span class="text-[9px] font-bold tracking-wider text-[#ffd57e]/70 uppercase mt-1">Anos</span>
+            </div>
+
+            <!-- MESES -->
+            <div class="bg-transparent rounded-2xl border border-[#ffd57e]/20 p-3 flex flex-col items-center justify-center shadow-inner">
+              <span id="months" class="text-2xl font-bold text-[#fbf9f4] tracking-tight">0</span>
+              <span class="text-[9px] font-bold tracking-wider text-[#ffd57e]/70 uppercase mt-1">Meses</span>
+            </div>
+
+            <!-- DIAS -->
+            <div class="bg-transparent rounded-2xl border border-[#ffd57e]/20 p-3 flex flex-col items-center justify-center shadow-inner">
+              <span id="days" class="text-2xl font-bold text-[#fbf9f4] tracking-tight">0</span>
+              <span class="text-[9px] font-bold tracking-wider text-[#ffd57e]/70 uppercase mt-1">Dias</span>
+            </div>
+
+            <!-- HORAS -->
+            <div class="bg-transparent rounded-2xl border border-[#ffd57e]/20 p-3 flex flex-col items-center justify-center shadow-inner">
+              <span id="hours" class="text-2xl font-bold text-[#fbf9f4] tracking-tight">0</span>
+              <span class="text-[9px] font-bold tracking-wider text-[#ffd57e]/70 uppercase mt-1">Horas</span>
+            </div>
+
+            <!-- MINUTOS -->
+            <div class="bg-transparent rounded-2xl border border-[#ffd57e]/20 p-3 flex flex-col items-center justify-center shadow-inner">
+              <span id="minutes" class="text-2xl font-bold text-[#fbf9f4] tracking-tight">0</span>
+              <span class="text-[9px] font-bold tracking-wider text-[#ffd57e]/70 uppercase mt-1">Min</span>
+            </div>
+
+            <!-- SEGUNDOS -->
+            <div class="bg-transparent rounded-2xl border border-[#ffd57e]/25 p-3 flex flex-col items-center justify-center shadow-inner">
+              <span id="seconds" class="text-2xl font-bold text-[#ffd57e] tracking-tight">0</span>
+              <span class="text-[9px] font-bold tracking-wider text-[#ffd57e]/80 uppercase mt-1">Seg</span>
+            </div>
+
+          </div>
+
+          <!-- Rodapé do Card -->
+          <div class="flex items-center gap-1.5 text-[11px] text-gray-500 border-t border-[#854f30]/20 pt-4 w-full justify-center">
+            <i data-lucide="clock" class="w-3.5 h-3.5 text-[#ffd57e]"></i>
+            <span>Desde as 00:00</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SEÇÃO 5: CARD NASA 3D INTERATIVO -->
+    <section class="w-full">
+      <div class="bg-[#0e0c0a] rounded-[2.2rem] border border-[#854f30]/25 p-6 shadow-2xl relative flex flex-col">
+        
+        <!-- Badges Superiores -->
+        <div class="flex justify-between items-center mb-4">
+          <div class="bg-[#1c1612] border border-[#854f30]/30 px-3 py-1 rounded-full text-[9px] font-bold text-white tracking-widest uppercase">
+            NASA | 18/10/2025
+          </div>
+        </div>
+
+        <!-- Renderizador 3D do Bennu (Anaglifo interativo!) -->
+        <div class="relative w-full aspect-square rounded-2xl overflow-hidden bg-black flex items-center justify-center border border-[#854f30]/15 group">
+          
+          <div id="canvas-container" class="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing"></div>
+          
+          <!-- Elementos de Anaglifo Estético por cima (Red/Cyan 3D Shift) -->
+          <div class="absolute inset-0 pointer-events-none mix-blend-screen opacity-15 border-2 border-red-500 scale-[1.01] rounded-2xl"></div>
+          <div class="absolute inset-0 pointer-events-none mix-blend-screen opacity-15 border-2 border-cyan-500 scale-[0.99] rounded-2xl"></div>
+
+          <!-- Overlay de Título e Texto descritivo -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-5 transition-transform duration-300">
+            <h3 class="font-serif-lux text-2xl font-semibold text-white mb-2 text-center drop-shadow-md">
+              Bennu Modelo 3D
+            </h3>
+            
+            <div id="nasa-details" class="transition-all duration-500 max-h-0 opacity-0 overflow-hidden text-center">
+              <p class="text-[11px] leading-relaxed text-[#eae6df]/90 text-justify pb-4">
+                Espalhados por sua superfície áspera, o minúsculo mundo do Sistema Solar tem cerca de um Empire State Building (menos de 500 metros) de diâmetro. Os quadros usados para construir este anáglifo 3D foram obtidos pela PolyCam na espaçonave OSIRIS_REx em 3 de dezembro de 2018, a uma distância de cerca de 80 quilômetros. Com uma amostra da superfície rochosa do asteroide a bordo, a OSIRIS_REx partiu das proximidades de Bennu em maio de 2021. A nave robótica devolveu com sucesso a amostra ao seu mundo natal em setembro de 2023.
+              </p>
+            </div>
+
+            <!-- Botão de Mostrar/Ocultar Detalhes -->
+            <button id="toggle-details-btn" class="w-full mt-2 py-2.5 px-4 bg-[#1c1612] border border-[#854f30]/30 rounded-full text-[10px] font-bold tracking-wider text-white uppercase flex items-center justify-center gap-2 hover:bg-[#281f19] hover:border-[#ffd57e]/30 transition-all">
+              <span id="btn-text">Ver Detalhes</span>
+              <i data-lucide="chevron-down" id="btn-icon" class="w-3.5 h-3.5 transition-transform duration-300"></i>
+            </button>
+          </div>
+
+          <!-- Dica Interativa para o Usuário -->
+          <div class="absolute top-2 right-2 bg-black/60 px-2.5 py-1 rounded-md text-[8px] text-white tracking-widest uppercase pointer-events-none opacity-60 flex items-center gap-1">
+            <i data-lucide="move" class="w-2.5 h-2.5"></i> Arrasta para rodar
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SEÇÃO 6: RODAPÉ DO PRODUTOR AFETUM -->
+    <footer class="w-full text-center flex flex-col items-center gap-2 pt-6 pb-12">
+      <span class="text-[9px] font-bold tracking-[0.3em] text-gray-500 uppercase">
+        IMAGEM ASTRONÓMICA DO DIA
+      </span>
+      <div class="flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-opacity">
+        <!-- Logo Afetum estilizado usando SVG -->
+        <svg class="w-5 h-5 text-[#ffd57e]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z"/>
+          <path d="M12 7v10"/>
+          <path d="M12 12h5"/>
+          <path d="m15 9-3-3-3 3"/>
+        </svg>
+        <span class="font-cinzel text-sm font-semibold tracking-[0.25em] text-[#ffd57e]">
+          
+        </span>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Notificação/Mensagem Amigável Flutuante -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-black/90 border border-[#854f30]/35 px-4 py-2.5 rounded-full text-xs text-[#eae6df] shadow-2xl z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-2 pointer-events-none">
+    <i data-lucide="info" class="w-4 h-4 text-[#ffd57e]"></i>
+    <span id="toast-message">Mensagem aqui</span>
+  </div>
+
+  <script>
+    // Inicialização de Ícones Lucide
+    lucide.createIcons();
+
+    // ----------------------------------------------------
+    // TRANSIÇÃO FLUIDA ENTRE ECRÃ INICIAL (CARTINHA) E PRINCIPAL
+    // ----------------------------------------------------
+    const openLetterBtn = document.getElementById('open-letter-btn');
+    const letterScreen = document.getElementById('letter-screen');
+    const mainContent = document.getElementById('main-content');
+
+    openLetterBtn.addEventListener('click', () => {
+      // Começa o fade-out e escala menor do ecrã inicial
+      letterScreen.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+      
+      // Ativa o fade-in do conteúdo principal com um pequeno delay de sensação premium
+      setTimeout(() => {
+        letterScreen.style.display = 'none';
+        mainContent.classList.remove('opacity-0');
+        mainContent.classList.add('opacity-100');
+        
+        // Dispara um toast carinhoso para começar a vossa experiência!
+        showToast("Com todo o carinho do mundo! ❤️");
+      }, 500);
+    });
+
+    // ----------------------------------------------------
+    // CRONÔMETRO REATIVO (Tempo Real desde 18/10/2025 às 00:00)
+    // ----------------------------------------------------
+    const targetDateStr = '2025-10-18T00:00:00';
+    const startDate = new Date(targetDateStr);
+
+    function calculateTimeElapsed() {
+      const now = new Date();
+      let diff = now - startDate;
+      
+      if (diff < 0) {
+        document.getElementById('years').innerText = "0";
+        document.getElementById('months').innerText = "0";
+        document.getElementById('days').innerText = "0";
+        document.getElementById('hours').innerText = "0";
+        document.getElementById('minutes').innerText = "0";
+        document.getElementById('seconds').innerText = "0";
+        return;
+      }
+
+      let years = now.getFullYear() - startDate.getFullYear();
+      let months = now.getMonth() - startDate.getMonth();
+      let days = now.getDate() - startDate.getDate();
+      let hours = now.getHours() - startDate.getHours();
+      let minutes = now.getMinutes() - startDate.getMinutes();
+      let seconds = now.getSeconds() - startDate.getSeconds();
+
+      if (seconds < 0) {
+        minutes--;
+        seconds += 60;
+      }
+      if (minutes < 0) {
+        hours--;
+        minutes += 60;
+      }
+      if (hours < 0) {
+        days--;
+        hours += 24;
+      }
+      if (days < 0) {
+        months--;
+        const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+        days += prevMonth.getDate();
+      }
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      document.getElementById('years').innerText = years;
+      document.getElementById('months').innerText = months;
+      document.getElementById('days').innerText = days;
+      document.getElementById('hours').innerText = hours;
+      document.getElementById('minutes').innerText = minutes;
+      document.getElementById('seconds').innerText = seconds;
+    }
+
+    setInterval(calculateTimeElapsed, 1000);
+    calculateTimeElapsed();
+
+
+    // ----------------------------------------------------
+    // GALERIA INTERATIVA DE FOTOS (Somente Exibição/Slide)
+    // ----------------------------------------------------
+    const galleryContainer = document.getElementById('gallery-container');
+    const slideshow = document.getElementById('gallery-slideshow');
+    const galleryImg = document.getElementById('gallery-img');
+    const galleryIndex = document.getElementById('gallery-index');
+    const nextPhotoBtn = document.getElementById('next-photo-btn');
+
+    let currentPhotoIndex = 0;
+
+    // Apenas as duas fotos reais que enviaste
+    const defaultPhotos = [
+      "WhatsApp Image 2026-07-18 at 10.43.30.jpeg",
+      "8d340908-b3e4-493f-80d8-f9d7314cc946.jpg"
+    ];
+
+    function updateGalleryUI() {
+      galleryImg.src = defaultPhotos[currentPhotoIndex];
+      galleryIndex.innerText = `${currentPhotoIndex + 1}/${defaultPhotos.length}`;
+    }
+
+    function nextPhoto() {
+      currentPhotoIndex = (currentPhotoIndex + 1) % defaultPhotos.length;
+      updateGalleryUI();
+    }
+
+    // Clicar no porta-retratos inteiro ou no botão de avançar alterna a foto
+    galleryContainer.addEventListener('click', (e) => {
+      nextPhoto();
+    });
+
+    // Inicializa o porta-retratos
+    updateGalleryUI();
+
+
+    // ----------------------------------------------------
+    // CARD NASA - MOSTRAR/OCULTAR DETALHES
+    // ----------------------------------------------------
+    const toggleDetailsBtn = document.getElementById('toggle-details-btn');
+    const nasaDetails = document.getElementById('nasa-details');
+    const btnText = document.getElementById('btn-text');
+    const btnIcon = document.getElementById('btn-icon');
+    let detailsVisible = false;
+
+    toggleDetailsBtn.addEventListener('click', () => {
+      detailsVisible = !detailsVisible;
+      if (detailsVisible) {
+        nasaDetails.style.maxHeight = "500px";
+        nasaDetails.style.opacity = "1";
+        btnText.innerText = "Ocultar Detalhes";
+        btnIcon.style.transform = "rotate(180deg)";
+      } else {
+        nasaDetails.style.maxHeight = "0px";
+        nasaDetails.style.opacity = "0";
+        btnText.innerText = "Ver Detalhes";
+        btnIcon.style.transform = "rotate(0deg)";
+      }
+    });
+
+
+    // ----------------------------------------------------
+    // MODELO 3D DO ASTEROIDE BENNU (Three.js realístico)
+    // ----------------------------------------------------
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.z = 2.5;
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    const geometry = new THREE.IcosahedronGeometry(0.8, 4);
+
+    const pos = geometry.attributes.position;
+    const vertex = new THREE.Vector3();
+    for (let i = 0; i < pos.count; i++) {
+      vertex.fromBufferAttribute(pos, i);
+      const length = vertex.length();
+      const noise = (Math.sin(vertex.x * 6) * Math.cos(vertex.y * 6) * Math.sin(vertex.z * 6)) * 0.12;
+      const poleSqueeze = 1 - Math.abs(vertex.y) * 0.15;
+      
+      vertex.normalize().multiplyScalar((0.8 + noise) * poleSqueeze);
+      pos.setXYZ(i, vertex.x, vertex.y, vertex.z);
+    }
+    geometry.computeVertexNormals();
+
+    const material = new THREE.MeshPhongMaterial({
+      color: 0x888277,
+      roughness: 0.9,
+      metalness: 0.1,
+      flatShading: true,
+      bumpScale: 0.05
+    });
+
+    const asteroid = new THREE.Mesh(geometry, material);
+    scene.add(asteroid);
+
+    // Iluminação dupla Velvet (Vermelho / Ciano suave)
+    const redLight = new THREE.DirectionalLight(0xff3333, 1.8);
+    redLight.position.set(-2, 1, 1);
+    scene.add(redLight);
+
+    const cyanLight = new THREE.DirectionalLight(0x33ffff, 1.8);
+    cyanLight.position.set(2, -1, 1);
+    scene.add(cyanLight);
+
+    const ambientLight = new THREE.AmbientLight(0x111111, 0.6);
+    scene.add(ambientLight);
+
+    let isDragging = false;
+    let previousMousePosition = { x: 0, y: 0 };
+
+    container.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      previousMousePosition = { x: e.clientX, y: e.clientY };
+    });
+
+    container.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const deltaMove = {
+        x: e.clientX - previousMousePosition.x,
+        y: e.clientY - previousMousePosition.y
+      };
+
+      asteroid.rotation.y += deltaMove.x * 0.008;
+      asteroid.rotation.x += deltaMove.y * 0.008;
+
+      previousMousePosition = { x: e.clientX, y: e.clientY };
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    container.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+    }, { passive: true });
+
+    container.addEventListener('touchmove', (e) => {
+      if (!isDragging || e.touches.length !== 1) return;
+      const deltaMove = {
+        x: e.touches[0].clientX - previousMousePosition.x,
+        y: e.touches[0].clientY - previousMousePosition.y
+      };
+
+      asteroid.rotation.y += deltaMove.x * 0.008;
+      asteroid.rotation.x += deltaMove.y * 0.008;
+
+      previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }, { passive: true });
+
+    container.addEventListener('touchend', () => {
+      isDragging = false;
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      if (!isDragging) {
+        asteroid.rotation.y += 0.003;
+        asteroid.rotation.x += 0.001;
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    window.onload = function() {
+      animate();
+    }
+
+    window.addEventListener('resize', () => {
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      renderer.setSize(width, height);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    });
+
+
+    // ----------------------------------------------------
+    // UTILITÁRIO DE TOAST (Notificações)
+    // ----------------------------------------------------
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toast-message');
+    let toastTimeout;
+
+    function showToast(message) {
+      clearTimeout(toastTimeout);
+      toastMessage.innerText = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
