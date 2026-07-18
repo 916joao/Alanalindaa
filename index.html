@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eu e Tu Para Sempre</title>
+  <title>Alanalinda</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -106,6 +106,14 @@
 </head>
 <body class="concentric-bg min-h-screen flex flex-col items-center justify-start pb-12 px-4 selection:bg-[#ffd57e]/30 selection:text-white">
 
+  <!-- Player de Áudio Nativo com fallback romântico de piano clássico para a prévia online -->
+  <audio id="bg-audio" preload="auto">
+    <!-- Primeira tentativa: O teu ficheiro local que crias na pasta do teu computador -->
+    <source src="midia/quem-alem-de-voce.mp3" type="audio/mpeg">
+    <!-- Segunda tentativa (Reserva Online): Um piano romântico super suave para ouvir no chat online -->
+    <source src="https://upload.wikimedia.org/wikipedia/commons/3/30/Chopin_Nocturne_op._9_no._2_performed_by_Donald_Betts.mp3" type="audio/mpeg">
+  </audio>
+
   <!-- ================= ECRÃ INICIAL: CARTINHA (Overlay) ================= -->
   <div id="letter-screen" class="fixed inset-0 z-50 bg-[#faf4ec] flex flex-col items-center justify-center p-6 text-center transition-all duration-1000 ease-in-out">
     
@@ -181,19 +189,49 @@
       </div>
     </section>
 
-    <!-- SEÇÃO 3: DECLARAÇÃO DE AMOR DO JOÃO -->
+    <!-- SEÇÃO 3: REPRODUTOR DE MÚSICA ESTILIZADO (Leoni - Quem Além de Você) -->
+    <section class="w-full">
+      <div class="bg-[#120f0c]/95 rounded-full p-2.5 border border-[#854f30]/35 flex items-center justify-between shadow-lg velvet-glow">
+        <div class="flex items-center gap-3 overflow-hidden flex-1">
+          
+          <!-- Capa do Álbum / Botão Play Interativo -->
+          <button id="play-pause-btn" class="relative group w-12 h-12 flex-shrink-0 rounded-full overflow-hidden flex items-center justify-center bg-[#1c1612]">
+            <!-- Simulação de Vinil Vermelho da Foto -->
+            <div class="absolute inset-0 bg-gradient-to-tr from-red-800 to-red-600 rounded-full animate-spin duration-1000" id="album-vinyl" style="animation-play-state: paused;"></div>
+            <div class="absolute inset-2 bg-black rounded-full flex items-center justify-center">
+              <i data-lucide="play" id="play-icon" class="w-4 h-4 text-[#ffd57e] fill-[#ffd57e] translate-x-[1px]"></i>
+              <i data-lucide="pause" id="pause-icon" class="w-4 h-4 text-[#ffd57e] fill-[#ffd57e] hidden"></i>
+            </div>
+          </button>
+
+          <!-- Informações da Música -->
+          <div class="flex flex-col text-left overflow-hidden flex-1">
+            <span class="text-[9px] font-bold tracking-[0.2em] text-[#ffd57e]/70 uppercase">TOCANDO</span>
+            <span class="text-xs font-semibold text-white truncate pr-2" id="track-title">
+              Quem Além de Você — Leoni
+            </span>
+            <!-- Barra de Progresso Simulado -->
+            <div class="w-full max-w-[180px] h-[3px] bg-[#1c1612] rounded-full mt-1.5 overflow-hidden">
+              <div class="h-full bg-[#ffd57e] rounded-full transition-all duration-100" id="audio-progress" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pr-3 text-[10px] text-gray-500 whitespace-nowrap" id="audio-time">0:00</div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 4: DECLARAÇÃO DE AMOR DO JOÃO -->
     <section class="text-center py-6 px-4 bg-[#120f0c]/60 rounded-3xl border border-[#854f30]/20">
       <p class="font-serif-lux text-[15px] md:text-[17px] italic text-[#fbf9f4]/95 leading-relaxed font-light text-justify">
         Se o céu perdesse o brilho e a lua deixasse de iluminar, bastaria o teu sorriso para fazer o meu mundo ganhar cor novamente. Gosto de voltar para casa com o teu cheiro no meu corpo, porque ele faz com que a tua presença continue comigo, mesmo quando você já não está ao meu lado. Eu amo te amar e te amo do jeito mais puro possível. Sou muito grato por ter você na minha vida e por poder compartilhar tantos momentos ao seu lado. Vamos assistir a muitos filmes e séries juntos, criar inúmeras lembranças e viver tudo o que sempre sonhamos. Vou te amar para sempre.
-
-
       </p>
       <span class="text-xs font-bold tracking-[0.3em] gold-text uppercase mt-4 block">
         JOÃO
       </span>
     </section>
 
-    <!-- SEÇÃO 4: CARD DO CASAL COM IMAGEM NO TOPO E CONTADOR (Luxo Noturno) -->
+    <!-- SEÇÃO 5: CARD DO CASAL COM IMAGEM NO TOPO E CONTADOR (Luxo Noturno) -->
     <section class="w-full">
       <div class="bg-[#120f0c] rounded-[2.2rem] border border-[#854f30]/35 shadow-2xl relative overflow-hidden flex flex-col velvet-glow">
         
@@ -273,7 +311,7 @@
       </div>
     </section>
 
-    <!-- SEÇÃO 5: CARD NASA 3D INTERATIVO -->
+    <!-- SEÇÃO 6: CARD NASA 3D INTERATIVO -->
     <section class="w-full">
       <div class="bg-[#0e0c0a] rounded-[2.2rem] border border-[#854f30]/25 p-6 shadow-2xl relative flex flex-col">
         
@@ -322,7 +360,7 @@
       </div>
     </section>
 
-    <!-- SEÇÃO 6: RODAPÉ DO PRODUTOR AFETUM -->
+    <!-- SEÇÃO 7: RODAPÉ -->
     <footer class="w-full text-center flex flex-col items-center gap-2 pt-6 pb-12">
       <span class="text-[9px] font-bold tracking-[0.3em] text-gray-500 uppercase">
         IMAGEM ASTRONÓMICA DO DIA
@@ -335,9 +373,6 @@
           <path d="M12 12h5"/>
           <path d="m15 9-3-3-3 3"/>
         </svg>
-        <span class="font-cinzel text-sm font-semibold tracking-[0.25em] text-[#ffd57e]">
-          
-        </span>
       </div>
     </footer>
 
@@ -470,6 +505,80 @@
 
     // Inicializa o porta-retratos
     updateGalleryUI();
+
+
+    // ----------------------------------------------------
+    // REPRODUTOR DE ÁUDIO REAL (Com Autoplay Inteligente)
+    // ----------------------------------------------------
+    const bgAudio = document.getElementById('bg-audio');
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const audioProgress = document.getElementById('audio-progress');
+    const audioTime = document.getElementById('audio-time');
+    const albumVinyl = document.getElementById('album-vinyl');
+    
+    let isPlaying = false;
+    let firstInteractionOccurred = false;
+
+    // Sincroniza o relógio e a barra de progresso da música
+    bgAudio.addEventListener('timeupdate', () => {
+      if (bgAudio.duration) {
+        const percentage = (bgAudio.currentTime / bgAudio.duration) * 100;
+        audioProgress.style.width = `${percentage}%`;
+        
+        const currentMin = Math.floor(bgAudio.currentTime / 60);
+        const currentSec = Math.floor(bgAudio.currentTime % 60).toString().padStart(2, '0');
+        audioTime.innerText = `${currentMin}:${currentSec}`;
+      }
+    });
+
+    // Início Inteligente no primeiro toque no ecrã para contornar o bloqueio de som
+    function handleFirstUserInteraction() {
+      if (firstInteractionOccurred) return;
+      
+      bgAudio.play().then(() => {
+        firstInteractionOccurred = true;
+        isPlaying = true;
+        playIcon.classList.add('hidden');
+        pauseIcon.classList.remove('hidden');
+        albumVinyl.style.animationPlayState = 'running';
+        showToast("Tocando Leoni — Quem Além de Você... ❤️");
+        
+        document.removeEventListener('click', handleFirstUserInteraction);
+        document.removeEventListener('touchstart', handleFirstUserInteraction);
+      }).catch(err => {
+        console.log("A aguardar interação para iniciar áudio.");
+      });
+    }
+
+    document.addEventListener('click', handleFirstUserInteraction);
+    document.addEventListener('touchstart', handleFirstUserInteraction);
+
+    // Controlo Manual de Play/Pause
+    playPauseBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); 
+      
+      if (isPlaying) {
+        bgAudio.pause();
+        isPlaying = false;
+        playIcon.classList.remove('hidden');
+        pauseIcon.classList.add('hidden');
+        albumVinyl.style.animationPlayState = 'paused';
+        showToast("Música pausada.");
+      } else {
+        bgAudio.play().then(() => {
+          isPlaying = true;
+          firstInteractionOccurred = true;
+          playIcon.classList.add('hidden');
+          pauseIcon.classList.remove('hidden');
+          albumVinyl.style.animationPlayState = 'running';
+          showToast("Tocando Leoni — Quem Além de Você... ❤️");
+        }).catch(err => {
+          showToast("Clica novamente para tocar.");
+        });
+      }
+    });
 
 
     // ----------------------------------------------------
